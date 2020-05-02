@@ -1,0 +1,93 @@
+{
+   "permissions" : [
+      {
+         "vhost" : "/",
+         "user" : "guest",
+         "write" : ".*",
+         "read" : ".*",
+         "configure" : ".*"
+      },
+      {
+         "write" : ".*",
+         "vhost" : "helloworld_virtual_host",
+         "user" : "helloworld_user",
+         "configure" : ".*",
+         "read" : ".*"
+      },
+      {
+         "write" : ".*",
+         "user" : "helloworld_user",
+         "vhost" : "/",
+         "configure" : ".*",
+         "read" : ".*"
+      },
+      {
+         "write" : ".*",
+         "vhost" : "helloworld_virtual_host",
+         "user" : "guest",
+         "configure" : ".*",
+         "read" : ".*"
+      }
+   ],
+   "global_parameters" : [
+      {
+         "value" : "rabbit@rabbithost",
+         "name" : "cluster_name"
+      }
+   ],
+   "parameters" : [],
+   "exchanges" : [
+      {
+         "auto_delete" : false,
+         "arguments" : {},
+         "durable" : true,
+         "name" : "helloworld_exchange",
+         "internal" : false,
+         "vhost" : "helloworld_virtual_host",
+         "type" : "direct"
+      }
+   ],
+   "topic_permissions" : [],
+   "rabbit_version" : "3.8.2",
+   "queues" : [
+      {
+         "vhost" : "helloworld_virtual_host",
+         "durable" : true,
+         "name" : "helloworld.image.ocr.queue",
+         "auto_delete" : false,
+         "arguments" : {}
+      },
+      {
+         "vhost" : "helloworld_virtual_host",
+         "durable" : true,
+         "name" : "helloworld.text.extract.queue",
+         "arguments" : {},
+         "auto_delete" : false
+      }
+   ],
+   "vhosts" : [
+      {
+         "name" : "helloworld_virtual_host"
+      },
+      {
+         "name" : "/"
+      }
+   ],
+   "bindings" : [],
+   "rabbitmq_version" : "3.8.2",
+   "users" : [
+      {
+         "hashing_algorithm" : "rabbit_password_hashing_sha256",
+         "password_hash" : "WZ+2wz15u53CG7C7/ZkUt60SmEglfDMk8DqgPVhiSrujYPvq",
+         "tags" : "administrator",
+         "name" : "helloworld_user"
+      },
+      {
+         "password_hash" : "WZ+2wz15u53CG7C7/ZkUt60SmEglfDMk8DqgPVhiSrujYPvq",
+         "hashing_algorithm" : "rabbit_password_hashing_sha256",
+         "name" : "guest",
+         "tags" : "administrator"
+      }
+   ],
+   "policies" : []
+}

@@ -1,0 +1,48 @@
+version: '2.2'
+services:
+  hello-mysql:
+    image: mysql:8.0.18
+    container_name: hello-mysql
+    environment:
+      - "MYSQL_ROOT_PASSWORD=root123"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ./mysql/db-data:/var/lib/mysql
+      - ./mysql/init-scripts:/docker-entrypoint-initdb.d:ro
+      - ./shared-mount:/hostshared
+    ports:
+      - 3306:3306
+  hello-rabbitmq:
+    image: rabbitmq:3.8.2-management
+    container_name: hello-rabbitmq
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ./rabbitmq/data/mnesia/:/var/lib/rabbitmq/mnesia/
+      - ./rabbitmq/data/schema/:/var/lib/rabbitmq/schema/
+      - ./rabbitmq/data/config/:/var/lib/rabbitmq/config/
+      - ./rabbitmq/definitions.json:/etc/rabbitmq/definitions.json:ro
+      - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+      - ./shared-mount:/hostshared
+    ports:
+      - 5672:5672
+      - 15672:15672
+  hello-redis:
+    image: redis:5.0.7
+    container_name: hello-redis
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+      - 6379:6379
+
+volumes:
+  shared-mount:
+    driver: local
+

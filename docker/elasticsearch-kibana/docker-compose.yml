@@ -1,0 +1,65 @@
+version: '2.2'
+services:
+  elasticsearch-01:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.5.1
+    container_name: elasticsearch-01
+    environment:
+      - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ./node-01/data:/usr/share/elasticsearch/data
+      - ./node-01/logs/:/var/log/elasticsearch/
+      - ./node-01/custom_elasticsearch-01.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+    ports:
+      - 9200:9200
+      - 9300:9300
+    networks:
+      - elasticsearch
+  elasticsearch-02:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.5.1
+    container_name: elasticsearch-02
+    environment:
+      - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ./node-02/data:/usr/share/elasticsearch/data
+      - ./node-02/logs/:/var/log/elasticsearch/
+      - ./node-02/custom_elasticsearch-02.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+    networks:
+      - elasticsearch
+  kibana-01:
+    image: docker.elastic.co/kibana/kibana:7.5.1
+    container_name: kibana-01
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ./kibana/logs/:/var/log/kibana/
+      - ./kibana/custom_kibana.yml:/usr/share/kibana/config/kibana.yml
+    ports:
+      - 5601:5601
+    networks:
+      - elasticsearch
+
+volumes:
+  es-data-01:
+    driver: local
+  custom_elasticsearch-01.yml:
+    driver: local
+  es-data-02:
+    driver: local
+  custom_elasticsearch-02.yml:
+    driver: local
+  shared-mount:
+    driver: local
+
+networks:
+  elasticsearch:
+    driver: bridge
