@@ -20,17 +20,29 @@
     mysql -e "select * from book" -h 127.0.0.1 -u root --database bookstore_schema --password=Book123
     ```
 
-- Get mysql db data dump, ignoring some tables
+- Get mysql db **data** dump, ignoring some tables
 
     ```bash
     mysqldump \
-        -h localhsot \
+        -h localhost \
         -u hellouser \
         -p bookstore_schema \
         --ignore-table=bookstore_schema.userlog \
         --ignore-table=bookstore_schema.bigtable \
     > bookstoredump.sql
     ```
+
+- Get mysql db **schema** dump. Use `-d` or `--no-data`.
+
+    ```bash
+    mysqldump \
+        --no-data \
+        -h 127.0.0.1 \
+        -u root \
+        -p bookstore_schema \
+    > bookstoreschema.sql
+    ```
+
 
 - Load SQL dump to db schema
 
